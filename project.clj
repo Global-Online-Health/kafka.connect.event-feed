@@ -1,4 +1,4 @@
-(defproject io.logicblocks/kafka.connect.event-feed "0.1.0-RC2"
+(defproject io.logicblocks/kafka.connect.event-feed "0.1.0-RC2+0.0.2"
   :description "A Kafka Connect connector to read a HAL based event feed resource."
   :url "https://github.com/logicblocks/kafka.connect.event-feed"
 
@@ -20,14 +20,13 @@
 
   :dependencies [[org.clojure/clojure "1.10.3"]
                  [org.clojure/tools.logging "1.1.0"]
-
-                 [halboy "5.1.1"]
+                 [halboy "6.0.0"]
                  [json-path "2.1.0"]]
 
   :profiles
   {:provided
    {:dependencies [[org.apache.kafka/connect-api "2.8.0"]]}
-   
+
    :shared
    [:provided {:dependencies
                [[org.clojure/test.check "1.1.0"]
@@ -40,7 +39,7 @@
                 [nrepl "0.8.3"]
                 [eftest "0.5.9"]
 
-                [halboy "5.1.1"
+                [halboy "6.0.0"
                  :exclusions [cheshire
                               org.clojure/core.cache]]
 
