@@ -1,4 +1,4 @@
-(defproject io.logicblocks/kafka.connect.event-feed "0.1.0-RC2+0.0.2"
+(defproject io.logicblocks/kafka.connect.event-feed "0.1.0-RC2+0.0.3"
   :description "A Kafka Connect connector to read a HAL based event feed resource."
   :url "https://github.com/logicblocks/kafka.connect.event-feed"
 
