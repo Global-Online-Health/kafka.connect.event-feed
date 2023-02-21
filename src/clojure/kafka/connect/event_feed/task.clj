@@ -1,7 +1,6 @@
 (ns kafka.connect.event-feed.task
   (:require
    [clojure.tools.logging :as log]
-
    [kafka.connect.event-feed.logging]
    [kafka.connect.event-feed.utils :as efu]
    [kafka.connect.event-feed.config :as efc]
@@ -59,7 +58,7 @@
   (update-state state-atom assoc :config nil))
 
 (defn report-commit-count [state-atom]
-  (log/infof
+  (log/debugf
     "EventFeedSourceTask[name: %s] committed %s records to topic since start."
     (efc/connector-name (config state-atom))
     (records-committed state-atom)))
@@ -67,7 +66,7 @@
 (defn wait-interval [state-atom]
   (let [config (config state-atom)
         interval-ms (efc/polling-fetch-interval-milliseconds config)]
-    (log/infof
+    (log/debugf
       (str "EventFeedSourceTask[name: %s] waiting %s ms before looking for "
         "new events...")
       (efc/connector-name config)
@@ -79,17 +78,18 @@
         offset (offset state-atom)]
     (log/infof
       (str "EventFeedSourceTask[name: %s] looking for new events: "
-        "[url: %s, per-page: %s, offset: %s]")
+        "[url: %s, per-page: %s, records-committed: %s, offset: %s]")
       (efc/connector-name config)
       (efc/event-feed-discovery-url config)
       (efc/event-feed-events-per-page config)
+      (records-committed state-atom)
       offset)
     (let [events (efe/load-new-events config offset)
           records (efe/events->source-records config events default-partition)
           new-offset (efe/event->offset config (last events))]
       (if (empty? events)
         (do
-          (log/infof "EventFeedSourceTask[name: %s] found no new events."
+          (log/debugf "EventFeedSourceTask[name: %s] found no new events."
             (efc/connector-name config))
           [[] nil])
         (do
